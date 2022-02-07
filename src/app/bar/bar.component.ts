@@ -34,7 +34,7 @@ export class BarComponent implements OnInit {
   private createSvg(): void {
     this.svg = d3.select("figure#bar")
       .append("svg")
-      .attr("width", this.width + (this.margin * 2))
+      .attr("width", this.width )
       .attr("height", this.height + (this.margin * 2))
       .append("g")
       .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
@@ -42,7 +42,7 @@ export class BarComponent implements OnInit {
 
   private drawBars(data: GraphData[]): void {
     const x = d3.scaleBand()
-      .range([0, this.width])
+      .range([0, this.width -this.margin*2])
       .domain(data.map(d => d.date))
 
       /*
