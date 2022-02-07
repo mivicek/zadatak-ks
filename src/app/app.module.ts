@@ -2,15 +2,18 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+// import {  } from 'd3';
 import { AppComponent } from './app.component';
+import { BarComponent } from './bar/bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BarComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
