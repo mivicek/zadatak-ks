@@ -26,7 +26,6 @@ export class BarComponent implements OnInit {
 
   showDate(value: any) {
     const date = new Date(value.target.__data__.date);
-    console.log('ddd: ', date)
     this.dateClicked = date;
   }
 
@@ -43,7 +42,6 @@ export class BarComponent implements OnInit {
     const x = d3.scaleBand()
       .range([0, this.width])
       .domain(data.map(d => d.date))
-
 
       /*
       .domain(data.map(d => {
