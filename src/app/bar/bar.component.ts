@@ -20,8 +20,10 @@ export class BarComponent implements OnInit {
   dateClicked: Date = new Date();
 
   ngOnInit(): void {
+    let dataCopy = JSON.parse(JSON.stringify(dataArr));
+
     this.createSvg();
-    this.drawBars(this.data);
+    this.drawBars(dataCopy);
   }
 
   showDate(value: any) {
@@ -70,20 +72,24 @@ export class BarComponent implements OnInit {
       .enter()
       .append("rect")
       .on("click", (e: any) => this.showDate(e))
-      .attr("x", (d: { date: string; }) => x(d.date))
+      .attr("x", (d: { date: string; }) => {
+        const out = new Date(d.date).toLocaleString('en-us', { month: 'long' });
+        return x(d.date)
+      })
       .attr("y", (d: { value: d3.NumberValue; }) => y(d.value))
       .attr("width", x.bandwidth())
       .attr("height", (d: { value: d3.NumberValue; }) => this.height - y(d.value))
       .attr("fill", (d: { color: any; }) => d.color || 'rgb(255, 94, 94)')
   }
 
-  /*
+  
   @HostListener('window:resize', ['$event']) onResize(event: any) {
     this.width = event.target.innerWidth - (this.margin * 2); 
     this.svg = d3.select("figure#bar > svg").remove();
+    let dataCopy = JSON.parse(JSON.stringify(dataArr));
     this.createSvg();
-    this.drawBars(this.data);
+    this.drawBars(dataCopy);
   }
-  */
+  
 
 }
