@@ -43,7 +43,6 @@ export class BarComponent implements OnInit {
     const x = d3.scaleBand()
     .range([0, this.width])
     .domain(data.map(d => {
-      console.log(d.date);
       d.date = new Date(d.date).toLocaleString('en-us',{month:'long'});
       return d.date;
     }))
@@ -54,7 +53,6 @@ export class BarComponent implements OnInit {
     .call(d3.axisBottom(x))
     .selectAll("text")
     .style("text-anchor", "center");
-
     const y = d3.scaleLinear()
     .domain([0, 300000])
     .range([this.height, 0]);
