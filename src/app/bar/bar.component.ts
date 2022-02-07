@@ -18,7 +18,7 @@ export class BarComponent implements OnInit {
   private width = window.innerWidth - (this.margin * 2);
   private height = 400 - (this.margin * 2);
   dateClicked: Date = new Date();
-  
+
   ngOnInit(): void {
     this.createSvg();
     this.drawBars(this.data);
@@ -32,44 +32,51 @@ export class BarComponent implements OnInit {
 
   private createSvg(): void {
     this.svg = d3.select("figure#bar")
-    .append("svg")
-    .attr("width", this.width + (this.margin * 2))
-    .attr("height", this.height + (this.margin * 2))
-    .append("g")
-    .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
+      .append("svg")
+      .attr("width", this.width + (this.margin * 2))
+      .attr("height", this.height + (this.margin * 2))
+      .append("g")
+      .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
   }
 
   private drawBars(data: GraphData[]): void {
     const x = d3.scaleBand()
-    .range([0, this.width])
-    .domain(data.map(d => {
-      d.date = new Date(d.date).toLocaleString('en-us',{month:'long'});
-      return d.date;
-    }))
-    .padding(0.2);
+      .range([0, this.width])
+      .domain(data.map(d => d.date))
+
+
+      /*
+      .domain(data.map(d => {
+        d.date = new Date(d.date).toLocaleString('en-us', { month: 'long' });
+        return d.date;
+      }))
+      
+      */
+      .padding(0.2);
+      
 
     this.svg.append("g")
-    .attr("transform", "translate(0," + this.height + ")")
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-    .style("text-anchor", "center");
+      .attr("transform", "translate(0," + this.height + ")")
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .style("text-anchor", "center");
     const y = d3.scaleLinear()
-    .domain([0, 300000])
-    .range([this.height, 0]);
+      .domain([0, 300000])
+      .range([this.height, 0]);
 
     this.svg.append("g")
-    .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y));
 
     this.svg.selectAll("bars")
-    .data(data)
-    .enter()
-    .append("rect")
-    .on("click", (e: any) => this.showDate(e))
-    .attr("x", (d: { date: string; }) => x(d.date))
-    .attr("y", (d: { value: d3.NumberValue; }) => y(d.value))
-    .attr("width", x.bandwidth())
-    .attr("height", (d: { value: d3.NumberValue; }) => this.height - y(d.value)) 
-    .attr("fill", (d: { color: any; }) => d.color || 'rgb(255, 94, 94)')
+      .data(data)
+      .enter()
+      .append("rect")
+      .on("click", (e: any) => this.showDate(e))
+      .attr("x", (d: { date: string; }) => x(d.date))
+      .attr("y", (d: { value: d3.NumberValue; }) => y(d.value))
+      .attr("width", x.bandwidth())
+      .attr("height", (d: { value: d3.NumberValue; }) => this.height - y(d.value))
+      .attr("fill", (d: { color: any; }) => d.color || 'rgb(255, 94, 94)')
   }
 
   /*
